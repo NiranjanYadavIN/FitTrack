@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fittrack_mini/main.dart';
+import 'package:fittrack_mini/services/local_storage_service.dart';
+import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:fittrack_mini/data/models/daily_step_model.dart';
+import 'package:fittrack_mini/data/models/water_model.dart';
+import 'package:fittrack_mini/data/models/activity_model.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App title is displayed', (WidgetTester tester) async {
+    final dailyStepBox = await Hive.openBox<DailyStepModel>('daily_steps_test');
+    final waterBox = await Hive.openBox<WaterModel>('water_intake_test');
+    final activityBox = await Hive.openBox<ActivityModel>('activities_test');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (context) => LocalStorageService(
+          dailyStepBox: dailyStepBox,
+          waterBox: waterBox,
+          activityBox: activityBox,
+        ),
+        child: MyApp(
+          dailyStepBox: dailyStepBox,
+          waterBox: waterBox,
+          activityBox: activityBox,
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app title is displayed.
+    expect(find.text('FitTrack Mini'), findsOneWidget);
   });
 }

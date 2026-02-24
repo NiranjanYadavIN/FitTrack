@@ -8,7 +8,7 @@ part of 'daily_step_model.dart';
 
 class DailyStepModelAdapter extends TypeAdapter<DailyStepModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
   DailyStepModel read(BinaryReader reader) {

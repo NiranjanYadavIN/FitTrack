@@ -2,13 +2,13 @@ import 'package:hive/hive.dart';
 
 part 'daily_step_model.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 0)
 class DailyStepModel extends HiveObject {
   @HiveField(0)
-  late DateTime date;
+  final DateTime date;
 
   @HiveField(1)
-  late int steps;
+  final int steps;
 
   DailyStepModel({required this.date, required this.steps});
 }
