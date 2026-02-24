@@ -1,37 +1,39 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 import 'package:fittrack_mini/services/local_storage_service.dart';
 import 'package:fittrack_mini/data/models/daily_step_model.dart';
 import 'package:fittrack_mini/data/models/water_model.dart';
 import 'package:fittrack_mini/data/models/activity_model.dart';
+import 'package:hive/hive.dart';
 
 void main() {
   group('LocalStorageService', () {
     late LocalStorageService localStorageService;
-
-    setUpAll(() {
-      Hive.init('test');
-      Hive.registerAdapter(DailyStepModelAdapter());
-      Hive.registerAdapter(WaterModelAdapter());
-      Hive.registerAdapter(ActivityModelAdapter());
-    });
+    late Box<DailyStepModel> dailyStepBox;
+    late Box<WaterModel> waterBox;
+    late Box<ActivityModel> activityBox;
 
     setUp(() async {
-      await Hive.openBox<DailyStepModel>('daily_steps');
-      await Hive.openBox<WaterModel>('water_intake');
-      await Hive.openBox<ActivityModel>('activities');
-      localStorageService = LocalStorageService();
+      dailyStepBox = await Hive.openBox<DailyStepModel>('daily_steps_test');
+      waterBox = await Hive.openBox<WaterModel>('water_intake_test');
+      activityBox = await Hive.openBox<ActivityModel>('activities_test');
+      localStorageService = LocalStorageService(
+          dailyStepBox: dailyStepBox,
+          waterBox: waterBox,
+          activityBox: activityBox);
     });
 
     tearDown(() async {
-      await Hive.deleteFromDisk();
+      await dailyStepBox.clear();
+      await waterBox.clear();
+      await activityBox.clear();
     });
 
     test('save and get daily steps', () async {
       final date = DateTime.now();
       final dailySteps = DailyStepModel(date: date, steps: 100);
       await localStorageService.dailyStepBox.put(date.toIso8601String(), dailySteps);
-      final retrievedSteps = localStorageService.dailyStepBox.get(date.toIso8601String());
+      final retrievedSteps =
+          localStorageService.dailyStepBox.get(date.toIso8601String());
       expect(retrievedSteps?.steps, 100);
     });
 
@@ -39,12 +41,18 @@ void main() {
       final date = DateTime.now();
       final waterIntake = WaterModel(date: date, amount: 5);
       await localStorageService.waterBox.put(date.toIso8601String(), waterIntake);
-      final retrievedWater = localStorageService.waterBox.get(date.toIso8601String());
+      final retrievedWater =
+          localStorageService.waterBox.get(date.toIso8601String());
       expect(retrievedWater?.amount, 5);
     });
 
     test('save and get activity', () async {
-      final activity = ActivityModel(date: DateTime.now(), type: 'Running', duration: 30, distance: 5.0, calories: 300);
+      final activity = ActivityModel(
+          date: DateTime.now(),
+          type: 'Running',
+          duration: 30,
+          distance: 5.0,
+          calories: 300);
       await localStorageService.activityBox.add(activity);
       final activities = localStorageService.activityBox.values.toList();
       expect(activities.length, 1);

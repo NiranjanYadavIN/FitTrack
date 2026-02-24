@@ -22,8 +22,8 @@ class ThemeProvider with ChangeNotifier {
       colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor, secondary: _accentColor),
       scaffoldBackgroundColor: Colors.white,
       textTheme: GoogleFonts.latoTextTheme(),
-      appBarTheme: AppBarTheme(
-        backgroundColor: _primaryColor,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.blue,
         elevation: 0,
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         iconTheme: IconThemeData(color: Colors.white),
@@ -59,8 +59,8 @@ class ThemeProvider with ChangeNotifier {
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.grey[850],
         elevation: 0,
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        iconTheme: IconThemeData(color: Colors.white),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       cardTheme: CardThemeData(
         elevation: 2,
