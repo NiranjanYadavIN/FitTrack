@@ -34,11 +34,11 @@ class MyApp extends StatelessWidget {
   final Box<ActivityModel> activityBox;
 
   const MyApp({
-    Key? key,
+    super.key,
     required this.dailyStepBox,
     required this.waterBox,
     required this.activityBox,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

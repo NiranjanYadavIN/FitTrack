@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     localStorageService.dailyStepBox.put(todayString, dailyStep);
   }
 
-  void onStepCountError(error) {
+  void onStepCountError(Object error) {
     debugPrint('Pedometer Error: $error');
   }
 
