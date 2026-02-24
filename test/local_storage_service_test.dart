@@ -4,8 +4,13 @@ import 'package:fittrack_mini/data/models/daily_step_model.dart';
 import 'package:fittrack_mini/data/models/water_model.dart';
 import 'package:fittrack_mini/data/models/activity_model.dart';
 import 'package:hive/hive.dart';
+import 'test_helper.dart';
 
 void main() {
+  setUpAll(() async {
+    await setupTestHive();
+  });
+
   group('LocalStorageService', () {
     late LocalStorageService localStorageService;
     late Box<DailyStepModel> dailyStepBox;

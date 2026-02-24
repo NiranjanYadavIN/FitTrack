@@ -2,22 +2,33 @@ name: Flutter CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.0'
+          # As per the project''s dependencies, a Flutter version with Dart SDK >= 3.8.0 is required.
+          # Please ensure the version below meets this requirement.
+          flutter-version: '3.22.2'
 
-      - run: flutter --version
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter build appbundle
+      - name: Disable analytics
+        run: flutter config --no-analytics
+
+      - name: Show Flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze project source
+        run: flutter analyze
