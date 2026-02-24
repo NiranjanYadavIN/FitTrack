@@ -2,26 +2,20 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.22.2'
-
-      - name: Disable Flutter analytics
-        run: flutter config --no-analytics
+          flutter-version: '3.22.0' # Use a modern, stable version of Flutter
 
       - name: Install dependencies
         run: flutter pub get
