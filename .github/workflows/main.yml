@@ -10,12 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0' # Use a modern, stable version of Flutter
+          channel: stable
+          flutter-version: '3.29.0'   # Latest stable (Dart 3.8+)
+
+      - run: flutter --version
+      - run: flutter config --no-analytics
 
       - name: Install dependencies
         run: flutter pub get
