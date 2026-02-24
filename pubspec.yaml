@@ -1,6 +1,6 @@
 name: fittrack_mini
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -23,7 +23,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # Charts
-  fl_chart: ^1.1.1
+  fl_chart: ^0.66.2
 
   # Step Counter
   pedometer: ^4.0.1
